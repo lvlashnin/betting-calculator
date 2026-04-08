@@ -1,4 +1,9 @@
-export const CURRENCY_TYPES = [
+type CurrencyTypeItem = {
+  value: string;
+  label: string;
+};
+
+export const CURRENCY_TYPES: CurrencyTypeItem[] = [
   { value: "UAH", label: "₴ Гривня" },
   { value: "USD", label: "$ Долар США" },
   { value: "EUR", label: "€ Євро" },

@@ -69,6 +69,7 @@ export const BetForm: React.FC<BetFormProps> = ({
         <label>Коефіцієнт</label>
         <input
           type="number"
+          step={0.01}
           className={errors.coefficient ? "error" : ""}
           placeholder="Наприклад: 1.5"
           {...register("coefficient", {

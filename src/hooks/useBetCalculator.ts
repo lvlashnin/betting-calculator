@@ -28,6 +28,7 @@ export const useBetCalculator = () => {
 
   const betAmount = watch("betAmount");
   const coefficient = watch("coefficient");
+  const gameType = watch("gameType");
 
   const [history, setHistory] = useState<BetHistoryItem[]>(() => {
     const saved = localStorage.getItem("betHistory");
@@ -42,7 +43,13 @@ export const useBetCalculator = () => {
     const amount = parseFloat(betAmount);
     const coeff = parseFloat(coefficient);
 
-    if (isNaN(amount) || isNaN(coeff) || amount <= 0 || coeff < 1.01) {
+    if (
+      isNaN(amount) ||
+      isNaN(coeff) ||
+      amount <= 0 ||
+      coeff < 1.01 ||
+      !gameType
+    ) {
       return null;
     }
 
@@ -51,7 +58,7 @@ export const useBetCalculator = () => {
       win,
       profit: win - amount,
     };
-  }, [betAmount, coefficient]);
+  }, [betAmount, coefficient, gameType]);
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCurrency = e.target.value as CurrencyType;
@@ -107,6 +114,7 @@ export const useBetCalculator = () => {
     errors,
     result,
     history,
+    watch,
     addToHistory,
     clearHistory,
     handleCurrencyChange,

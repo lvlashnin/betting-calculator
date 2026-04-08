@@ -22,5 +22,3 @@ export interface BetHistoryItem {
   potentialWin: number;
   profit: number;
 }
-
-export type BetErrors = Partial<Record<keyof BetFormData, string>>;

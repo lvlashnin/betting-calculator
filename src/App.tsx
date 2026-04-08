@@ -1,10 +1,18 @@
 import "./App.css";
 import { useBetCalculator } from "./hooks/useBetCalculator";
 import { BetForm } from "./components/BetForm/BetForm";
+import { BetResult } from "./components/BetResult/BetResult";
 
 function App() {
-  const { register, handleSubmit, errors, addToHistory, handleCurrencyChange } =
-    useBetCalculator();
+  const {
+    result,
+    watch,
+    register,
+    handleSubmit,
+    errors,
+    addToHistory,
+    handleCurrencyChange,
+  } = useBetCalculator();
 
   return (
     <>
@@ -15,6 +23,11 @@ function App() {
           handleSubmit={handleSubmit}
           onSubmit={addToHistory}
           onCurrencyChange={handleCurrencyChange}
+        />
+        <BetResult
+          result={result}
+          gameType={watch("gameType")}
+          currency={watch("currency")}
         />
       </div>
     </>
