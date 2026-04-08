@@ -23,7 +23,7 @@ export const BetResult: React.FC<BetResultProps> = ({
     return (
       <div className={styles.container}>
         <div className={styles.placeholder}>
-          <p>Введіть суму, коефіцієнт та оберіть тип гри</p>
+          <p>Введіть суму, коефіцієнт та оберіть тип гри...</p>
         </div>
       </div>
     );
