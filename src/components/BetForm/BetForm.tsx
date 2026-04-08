@@ -9,6 +9,7 @@ import type {
 import type { BetFormData } from "../../types/betTypes";
 
 import styles from "./BetForm.module.css";
+import cn from "classnames";
 
 interface BetFormProps {
   register: UseFormRegister<BetFormData>;
@@ -28,11 +29,13 @@ export const BetForm: React.FC<BetFormProps> = ({
   return (
     <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.formGroup}>
-        <label>Сума ставки</label>
+        <label className={styles.label}>Сума ставки</label>
         <input
           type="number"
           step={0.01}
-          className={`${styles.input} ${errors.betAmount ? styles.inputError : ""}`}
+          className={cn(styles.input, {
+            [styles.inputError]: errors.betAmount,
+          })}
           placeholder="100"
           {...register("betAmount", {
             required: "Введіть суму ставки",
@@ -41,14 +44,14 @@ export const BetForm: React.FC<BetFormProps> = ({
           })}
         />
         {errors.betAmount && (
-          <span className="error-text">{errors.betAmount.message}</span>
+          <span className={styles.errorText}>{errors.betAmount.message}</span>
         )}
       </div>
 
-      <div className="form-group">
-        <label>Валюта</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Валюта</label>
         <select
-          className={errors.currency ? "error" : ""}
+          className={cn(styles.input, { [styles.inputError]: errors.currency })}
           {...register("currency", { required: "Оберіть валюту" })}
           onChange={(e) => {
             onCurrencyChange(e);
@@ -64,16 +67,18 @@ export const BetForm: React.FC<BetFormProps> = ({
           ))}
         </select>
         {errors.currency && (
-          <span className="error-text">{errors.currency.message}</span>
+          <span className={styles.errorText}>{errors.currency.message}</span>
         )}
       </div>
 
-      <div className="form-group">
-        <label>Коефіцієнт</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Коефіцієнт</label>
         <input
           type="number"
           step={0.01}
-          className={errors.coefficient ? "error" : ""}
+          className={cn(styles.input, {
+            [styles.inputError]: errors.coefficient,
+          })}
           placeholder="Наприклад: 1.5"
           {...register("coefficient", {
             required: "Введіть коефіцієнт",
@@ -82,14 +87,14 @@ export const BetForm: React.FC<BetFormProps> = ({
           })}
         />
         {errors.coefficient && (
-          <span className="error-text">{errors.coefficient.message}</span>
+          <span className={styles.errorText}>{errors.coefficient.message}</span>
         )}
       </div>
 
-      <div className="form-group">
-        <label>Тип гри</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Тип гри</label>
         <select
-          className={errors.gameType ? "error" : ""}
+          className={cn(styles.input, { [styles.inputError]: errors.gameType })}
           {...register("gameType", { required: "Оберіть тип гри" })}
         >
           <option value="" disabled>
@@ -102,11 +107,11 @@ export const BetForm: React.FC<BetFormProps> = ({
           ))}
         </select>
         {errors.gameType && (
-          <span className="error-text">{errors.gameType.message}</span>
+          <span className={styles.errorText}>{errors.gameType.message}</span>
         )}
       </div>
 
-      <button type="submit" className="submit-btn">
+      <button type="submit" className={styles.submitBtn}>
         Зробити ставку
       </button>
     </form>
