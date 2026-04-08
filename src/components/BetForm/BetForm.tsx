@@ -29,6 +29,7 @@ export const BetForm: React.FC<BetFormProps> = ({
         <label>Сума ставки</label>
         <input
           type="number"
+          step={0.01}
           className={errors.betAmount ? "error" : ""}
           placeholder="100"
           {...register("betAmount", {
