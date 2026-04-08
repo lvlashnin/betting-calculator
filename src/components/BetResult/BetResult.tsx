@@ -5,6 +5,9 @@ import type {
 } from "../../types/betTypes";
 import { GAME_TYPES } from "../../constants/gameTypes";
 
+import cn from "classnames";
+import styles from "./BetResult.module.css";
+
 interface BetResultProps {
   result: BetResultType | null;
   gameType: string;
@@ -18,8 +21,10 @@ export const BetResult: React.FC<BetResultProps> = ({
 }) => {
   if (!result) {
     return (
-      <div className="bet-result placeholder">
-        <p>Введіть дані для розрахунку</p>
+      <div className={styles.container}>
+        <div className={styles.placeholder}>
+          <p>Введіть суму, коефіцієнт та оберіть тип гри</p>
+        </div>
       </div>
     );
   }
@@ -38,24 +43,28 @@ export const BetResult: React.FC<BetResultProps> = ({
   };
 
   return (
-    <div className="bet-result active">
-      <h3>
-        <span className="game-badge">{gameLabel}</span>
-      </h3>
-
-      <div className="result-cards">
-        <div className="result-card win">
-          <span className="label">Потенційний виграш:</span>
-          <strong className="amount">
-            {formatMoney(result.win, currency)}
-          </strong>
+    <div className={styles.container}>
+      <div className={styles.activeState}>
+        <div className={styles.header}>
+          <span className={styles.gameBadge}>{gameLabel}</span>
         </div>
 
-        <div className="result-card profit">
-          <span className="label">Чистий прибуток:</span>
-          <strong className="amount">
-            {formatMoney(result.profit, currency)}
-          </strong>
+        <div className={styles.cardsWrapper}>
+          <div className={cn(styles.resultCard, styles.winCard)}>
+            <span className={cn(styles.label, styles.winLabel)}>
+              Потенційний виграш:
+            </span>
+            <strong className={cn(styles.amount, styles.winAmount)}>
+              {formatMoney(result.win, currency)}
+            </strong>
+          </div>
+
+          <div className={styles.resultCard}>
+            <span className={styles.label}>Чистий прибуток:</span>
+            <strong className={styles.amount}>
+              {formatMoney(result.profit, currency)}
+            </strong>
+          </div>
         </div>
       </div>
     </div>
