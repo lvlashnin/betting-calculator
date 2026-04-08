@@ -1,21 +1,33 @@
 import { useState, useEffect, useMemo } from "react";
+import { useForm } from "react-hook-form";
 import type {
   BetFormData,
   BetResult,
   BetHistoryItem,
-  BetErrors,
+  CurrencyType,
 } from "../types/betTypes";
 import { EXCHANGE_RATES } from "../constants/gameCurrency";
 
 export const useBetCalculator = () => {
-  const [formData, setFormData] = useState<BetFormData>({
-    betAmount: "",
-    coefficient: "",
-    gameType: "",
-    currency: "UAH",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<BetFormData>({
+    defaultValues: {
+      betAmount: "",
+      coefficient: "",
+      gameType: "",
+      currency: "UAH",
+    },
+    mode: "onChange",
   });
 
-  const [errors, setErrors] = useState({});
+  const betAmount = watch("betAmount");
+  const coefficient = watch("coefficient");
 
   const [history, setHistory] = useState<BetHistoryItem[]>(() => {
     const saved = localStorage.getItem("betHistory");
@@ -27,60 +39,43 @@ export const useBetCalculator = () => {
   }, [history]);
 
   const result = useMemo<BetResult | null>(() => {
-    const amount = parseFloat(formData.betAmount);
-    const coeff = parseFloat(formData.coefficient);
+    const amount = parseFloat(betAmount);
+    const coeff = parseFloat(coefficient);
 
     if (isNaN(amount) || isNaN(coeff) || amount <= 0 || coeff < 1.01) {
       return null;
     }
 
     const win = amount * coeff;
-    const profit = win - amount;
-    const rate = EXCHANGE_RATES[formData.currency] | 1;
-
     return {
-      win: win * rate,
-      profit: profit * rate,
+      win,
+      profit: win - amount,
     };
-  }, [formData.betAmount, formData.coefficient, formData.currency]);
+  }, [betAmount, coefficient]);
 
-  const validate = (): boolean => {
-    const newErrors: BetErrors = {};
-    const amount = parseFloat(formData.betAmount);
-    const coeff = parseFloat(formData.coefficient);
+  const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCurrency = e.target.value as CurrencyType;
+    const oldCurrency = getValues("currency");
+    const currentAmount = parseFloat(getValues("betAmount"));
 
-    if (!formData.betAmount || isNaN(amount))
-      newErrors.betAmount = "Введіть суму ставки";
-    else if (amount <= 0) newErrors.betAmount = "Сума повинна бути більше 0";
-    else if (amount > 100000) newErrors.betAmount = "Максимум 100 000";
+    if (
+      !isNaN(currentAmount) &&
+      currentAmount > 0 &&
+      oldCurrency !== newCurrency
+    ) {
+      const amountInBase = currentAmount * EXCHANGE_RATES[oldCurrency];
+      const convertedAmount = amountInBase / EXCHANGE_RATES[newCurrency];
 
-    if (!formData.coefficient || isNaN(coeff))
-      newErrors.coefficient = "Введіть коефіцієнт";
-    else if (coeff < 1.01)
-      newErrors.coefficient = "Мінімальний коефіцієнт 1.01";
-    else if (coeff > 1000) newErrors.coefficient = "Максимум 1000";
-
-    if (!formData.gameType) newErrors.gameType = "Оберіть тип гри";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    if (errors[name as keyof BetFormData]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
+      setValue("betAmount", convertedAmount.toFixed(2), {
+        shouldValidate: true,
+      });
     }
+
+    setValue("currency", newCurrency, { shouldValidate: true });
   };
 
-  const addToHistory = () => {
-    if (!validate() || !result) return;
+  const addToHistory = (data: BetFormData) => {
+    if (!result) return;
 
     const newBet: BetHistoryItem = {
       id: Date.now(),
@@ -91,10 +86,10 @@ export const useBetCalculator = () => {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      amount: parseFloat(formData.betAmount),
-      coefficient: parseFloat(formData.coefficient),
-      gameType: formData.gameType,
-      currency: formData.currency,
+      amount: parseFloat(data.betAmount),
+      coefficient: parseFloat(data.coefficient),
+      gameType: data.gameType,
+      currency: data.currency,
       potentialWin: result.win,
       profit: result.profit,
     };
@@ -107,13 +102,13 @@ export const useBetCalculator = () => {
   };
 
   return {
-    formData,
+    register,
+    handleSubmit,
     errors,
-    history,
     result,
-    handleInputChange,
+    history,
     addToHistory,
     clearHistory,
-    validate,
+    handleCurrencyChange,
   };
 };
