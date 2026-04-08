@@ -3,6 +3,7 @@ import { useBetCalculator } from "./hooks/useBetCalculator";
 import { BetForm } from "./components/BetForm/BetForm";
 import { BetResult } from "./components/BetResult/BetResult";
 import { BetHistory } from "./components/BetHistory/BetHistory";
+import { BetChart } from "./components/BetChart/BetChart";
 
 function App() {
   const {
@@ -41,8 +42,8 @@ function App() {
             />
           </div>
 
-          {/* Права колонка: Історія */}
           <div className="history-section">
+            <BetChart history={history} />
             <BetHistory history={history} onClear={clearHistory} />
           </div>
         </main>

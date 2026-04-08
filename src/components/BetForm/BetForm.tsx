@@ -8,6 +8,8 @@ import type {
 } from "react-hook-form";
 import type { BetFormData } from "../../types/betTypes";
 
+import styles from "./BetForm.module.css";
+
 interface BetFormProps {
   register: UseFormRegister<BetFormData>;
   errors: FieldErrors<BetFormData>;
@@ -24,13 +26,13 @@ export const BetForm: React.FC<BetFormProps> = ({
   onCurrencyChange,
 }) => {
   return (
-    <form className="bet-form" onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-group">
+    <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
+      <div className={styles.formGroup}>
         <label>Сума ставки</label>
         <input
           type="number"
           step={0.01}
-          className={errors.betAmount ? "error" : ""}
+          className={`${styles.input} ${errors.betAmount ? styles.inputError : ""}`}
           placeholder="100"
           {...register("betAmount", {
             required: "Введіть суму ставки",
