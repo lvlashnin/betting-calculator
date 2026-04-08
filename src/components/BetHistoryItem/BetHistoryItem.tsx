@@ -2,6 +2,9 @@ import React from "react";
 import type { BetHistoryItem as BetHistoryItemType } from "../../types/betTypes";
 import { GAME_TYPES } from "../../constants/gameTypes";
 
+import cn from "classnames";
+import styles from "./BetHistoryItem.module.css";
+
 interface BetHistoryItemProps {
   bet: BetHistoryItemType;
 }
@@ -20,24 +23,28 @@ export const BetHistoryItem: React.FC<BetHistoryItemProps> = ({ bet }) => {
   };
 
   return (
-    <div className="history-item">
-      <div className="history-item-header">
-        <span className="game-type">{gameLabel}</span>
-        <span className="date">{bet.date}</span>
+    <div className={styles.itemCard}>
+      <div className={styles.header}>
+        <span className={styles.gameType}>{gameLabel}</span>
+        <span className={styles.date}>{bet.date}</span>
       </div>
 
-      <div className="history-item-body">
-        <div className="stat">
-          <span className="stat-label">Ставка:</span>
-          <strong>{formatMoney(bet.amount, bet.currency)}</strong>
+      <div className={styles.body}>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Ставка</span>
+          <strong className={styles.statValue}>
+            {formatMoney(bet.amount, bet.currency)}
+          </strong>
         </div>
-        <div className="stat">
-          <span className="stat-label">Коеф:</span>
-          <strong>x{bet.coefficient}</strong>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Коеф</span>
+          <strong className={styles.statValue}>x{bet.coefficient}</strong>
         </div>
-        <div className="stat win">
-          <span className="stat-label">Виграш:</span>
-          <strong>{formatMoney(bet.potentialWin, bet.currency)}</strong>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Виграш</span>
+          <strong className={cn(styles.statValue, styles.winValue)}>
+            {formatMoney(bet.potentialWin, bet.currency)}
+          </strong>
         </div>
       </div>
     </div>
