@@ -1,6 +1,6 @@
 import React from "react";
 import type { BetHistoryItem as BetHistoryItemType } from "../../types/betTypes";
-import { GAME_TYPES } from "../../constants/gameTypes";
+import { formatMoney, getGameLabel } from "../../utils/formatters";
 
 import cn from "classnames";
 import styles from "./BetHistoryItem.module.css";
@@ -10,17 +10,7 @@ interface BetHistoryItemProps {
 }
 
 export const BetHistoryItem: React.FC<BetHistoryItemProps> = ({ bet }) => {
-  const gameLabel =
-    GAME_TYPES.find((el) => el.value === bet.gameType)?.label || bet.gameType;
-
-  const formatMoney = (amount: number, currCode: string) => {
-    return new Intl.NumberFormat("uk-UA", {
-      style: "currency",
-      currency: currCode || "UAH",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(amount);
-  };
+  const gameLabel = getGameLabel(bet.gameType);
 
   return (
     <div className={styles.itemCard}>

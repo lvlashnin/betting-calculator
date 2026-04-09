@@ -29,10 +29,14 @@ export const BetForm: React.FC<BetFormProps> = ({
   return (
     <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.formGroup}>
-        <label className={styles.label}>Сума ставки</label>
+        <label htmlFor="betAmount" className={styles.label}>
+          Сума ставки
+        </label>
         <input
+          id="betAmount"
           type="number"
           step={0.01}
+          min="0"
           className={cn(styles.input, {
             [styles.inputError]: errors.betAmount,
           })}
@@ -49,8 +53,11 @@ export const BetForm: React.FC<BetFormProps> = ({
       </div>
 
       <div className={styles.formGroup}>
-        <label className={styles.label}>Валюта</label>
+        <label htmlFor="currency" className={styles.label}>
+          Валюта
+        </label>
         <select
+          id="currency"
           className={cn(styles.input, { [styles.inputError]: errors.currency })}
           {...register("currency", { required: "Оберіть валюту" })}
           onChange={(e) => {
@@ -72,10 +79,14 @@ export const BetForm: React.FC<BetFormProps> = ({
       </div>
 
       <div className={styles.formGroup}>
-        <label className={styles.label}>Коефіцієнт</label>
+        <label htmlFor="coefficient" className={styles.label}>
+          Коефіцієнт
+        </label>
         <input
+          id="coefficient"
           type="number"
           step={0.01}
+          min="1.01"
           className={cn(styles.input, {
             [styles.inputError]: errors.coefficient,
           })}
@@ -92,8 +103,11 @@ export const BetForm: React.FC<BetFormProps> = ({
       </div>
 
       <div className={styles.formGroup}>
-        <label className={styles.label}>Тип гри</label>
+        <label htmlFor="gameType" className={styles.label}>
+          Тип гри
+        </label>
         <select
+          id="gameType"
           className={cn(styles.input, { [styles.inputError]: errors.gameType })}
           {...register("gameType", { required: "Оберіть тип гри" })}
         >

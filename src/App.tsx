@@ -22,7 +22,7 @@ function App() {
     <>
       <div className="app-container page">
         <header className="header">
-          <h1>🎰 Betting Calculator</h1>
+          <h1>🎰 Betverse Calculator</h1>
         </header>
 
         <main className="main-content">

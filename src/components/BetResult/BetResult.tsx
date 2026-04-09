@@ -3,10 +3,10 @@ import type {
   BetResult as BetResultType,
   CurrencyType,
 } from "../../types/betTypes";
-import { GAME_TYPES } from "../../constants/gameTypes";
+import { formatMoney, getGameLabel } from "../../utils/formatters";
 
-import cn from "classnames";
 import styles from "./BetResult.module.css";
+import cn from "classnames";
 
 interface BetResultProps {
   result: BetResultType | null;
@@ -23,24 +23,13 @@ export const BetResult: React.FC<BetResultProps> = ({
     return (
       <div className={styles.container}>
         <div className={styles.placeholder}>
-          <p>Введіть суму, коефіцієнт та оберіть тип гри...</p>
+          <p>Введіть суму, коефіцієнт та оберіть тип гри</p>
         </div>
       </div>
     );
   }
 
-  const gameLabel =
-    GAME_TYPES.find((el) => el.value === gameType)?.label || gameType;
-
-  const formatMoney = (amount: number, currCode: string) => {
-    const validCurr = currCode || "UAH";
-    return new Intl.NumberFormat("uk-UA", {
-      style: "currency",
-      currency: validCurr,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(amount);
-  };
+  const gameLabel = getGameLabel(gameType);
 
   return (
     <div className={styles.container}>
