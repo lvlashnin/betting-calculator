@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# 🎰 Betting Calculator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![CSS Modules](https://img.shields.io/badge/CSS_Modules-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
-Currently, two official plugins are available:
+> 🚀 **Живе демо:** [https://betverse-calculator.vercel.app/]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+SPA (Single Page Application) калькулятор для миттєвого розрахунку потенційного виграшу та прибутку зі ставок. Проєкт розроблено з акцентом на чисту архітектуру, строгу типізацію та найкращі практики UX/UI.
 
-## React Compiler
+## ✨ Основний функціонал
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Real-time розрахунок:** Використання `useMemo` для миттєвого оновлення результатів без зайвих рендерів.
+- **Продвинута валідація:** Форма побудована на `react-hook-form` із суворим контролем мінімальних/максимальних значень та блокуванням від'ємних чисел на рівні HTML-семантики.
+- **Локальна історія:** Збереження останніх 5 ставок у `localStorage` з використанням принципу FIFO (First-In, First-Out).
+- **Плавні анімації:** Реалізовано CSS-анімації для появи результату (`pop-in`), появи карток історії та їх плавного видалення.
+- **Семантика та DRY:** Використання семантичних зв'язок (`label` + `id`), винесення логіки форматування у спільні `utils`.
 
-## Expanding the ESLint configuration
+## 🎁 Реалізовані бонусні завдання
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **💱 Мультивалютність:** Підтримка конвертації ставок (UAH, USD, EUR, PLN, GBP) у реальному часі зі збереженням еквіваленту виграшу.
+2. **📊 Графік динаміки:** Візуалізація чистого прибутку останніх ставок за допомогою бібліотеки `recharts` (з'являється при наявності ≥ 2 ставок).
+3. **🛡️ TypeScript:** Проєкт повністю типізовано (інтерфейси даних, пропси, типи подій).
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠 Технологічний стек
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Core:** React 18 (Functional Components, Hooks)
+- **Збірка:** Vite
+- **Мова:** TypeScript
+- **Робота з формами:** React Hook Form
+- **Стилізація:** CSS Modules + `classnames` (cn) + CSS Variables
+- **Візуалізація даних:** Recharts
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📂 Архітектура проєкту
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Логіка додатку повністю відділена від UI. Уся математика, робота з `localStorage` та станами форми інкапсульована у кастомний хук `useBetCalculator`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+├── components/          # UI компоненти (кожен у своїй папці з .module.css)
+│   ├── BetForm/
+│   ├── BetResult/
+│   ├── BetHistory/
+│   └── BetChart/
+├── hooks/               # Кастомні хуки
+│   └── useBetCalculator.ts
+├── types/               # TypeScript інтерфейси
+├── utils/               # Хелпери (форматування валют, пошук по константам)
+├── constants/           # Статичні дані (типи ігор, курси валют)
+└── index.css            # Глобальні змінні та reset
 ```
