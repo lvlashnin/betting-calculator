@@ -25,7 +25,7 @@ SPA (Single Page Application) калькулятор для миттєвого �
 
 ## 🛠 Технологічний стек
 
-- **Core:** React 18 (Functional Components, Hooks)
+- **Core:** React 19  (Functional Components, Hooks)
 - **Збірка:** Vite
 - **Мова:** TypeScript
 - **Робота з формами:** React Hook Form
