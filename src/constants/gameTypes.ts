@@ -1,4 +1,9 @@
-export const GAME_TYPES = [
+type GameTypeItem = {
+  value: string;
+  label: string;
+}
+
+export const GAME_TYPES : GameTypeItem[] = [
   { value: "football", label: "⚽ Футбол" },
   { value: "basketball", label: "🏀 Баскетбол" },
   { value: "tennis", label: "🎾 Теніс" },

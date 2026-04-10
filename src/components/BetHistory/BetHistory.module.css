@@ -1,0 +1,76 @@
+@keyframes slideUpOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.isClearing {
+  animation: slideUpOut 0.5s ease-in forwards;  
+  pointer-events: none; 
+}
+
+.historyContainer {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%; 
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--bg-body);
+  padding-bottom: 12px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.clearBtn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clearBtn:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+  background-color: var(--danger-bg);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 15px;
+  background: var(--bg-body);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border);
+}
