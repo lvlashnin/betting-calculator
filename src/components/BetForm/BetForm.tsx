@@ -41,6 +41,17 @@ export const BetForm: React.FC<BetFormProps> = ({
             [styles.inputError]: errors.betAmount,
           })}
           placeholder="100"
+          onKeyDown={(e) => {
+            if (
+              e.key === "-" ||
+              e.key === "+" ||
+              e.key === "e" ||
+              e.key === "E" ||
+              e.key === "0"
+            ) {
+              e.preventDefault();
+            }
+          }}
           {...register("betAmount", {
             required: "Введіть суму ставки",
             min: { value: 0.01, message: "Сума повинна бути більше 0" },

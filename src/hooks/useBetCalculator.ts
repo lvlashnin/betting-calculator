@@ -36,7 +36,11 @@ export const useBetCalculator = () => {
   });
 
   useEffect(() => {
-    localStorage.setItem("betHistory", JSON.stringify(history));
+    try {
+      localStorage.setItem("betHistory", JSON.stringify(history));
+    } catch (error) {
+      console.error("error during setting in localStorage:", error);
+    }
   }, [history]);
 
   const result = useMemo<BetResult | null>(() => {
